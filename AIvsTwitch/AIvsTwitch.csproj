@@ -149,6 +149,7 @@
     <Compile Include="ConfigHandler.cs" />
     <Compile Include="Effect.cs" />
     <Compile Include="EffectHandler.cs" />
+    <Compile Include="Effects\LaunchPlayerAround.cs" />
     <Compile Include="Effects\LockAxis.cs" />
     <Compile Include="Effects\SetHealthRandom.cs" />
     <Compile Include="Effects\SetItemData.cs" />

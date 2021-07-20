@@ -14,6 +14,7 @@ namespace AIvsTwitch
             RandomHealth,
             RandomItem,
             LockAxis,
+            LaunchPlayer,
         }
 
         private Effect GetEffect(EffectType rnd)
@@ -31,6 +32,10 @@ namespace AIvsTwitch
                 case EffectType.LockAxis:
                     {
                         return new LockAxis();
+                    }
+                case EffectType.LaunchPlayer:
+                    {
+                        return new LaunchPlayerAround();
                     }
             }
             return null; //error has occured.
