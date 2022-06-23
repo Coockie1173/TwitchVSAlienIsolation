@@ -12,6 +12,12 @@ namespace AIvsTwitch
     {
         public void Run()
         {
+            while(ThreadSharedData.Waiting)
+            {
+                //hold until waiting is done
+                ThreadSharedData.DrawData = "Awaiting start command by moderator/streamer...";
+                ThreadSharedData.CurrentlyShow = true;
+            }
             bool TimerRunning = true;
 
             ThreadSharedData.CurrentlyShow = false;

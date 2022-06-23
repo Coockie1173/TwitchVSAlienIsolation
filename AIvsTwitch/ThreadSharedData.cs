@@ -20,5 +20,6 @@ namespace AIvsTwitch
         public static Effect[] ActiveEffects;
 
         public static List<string> PeopleVoted = new List<string>();
+        public static bool Waiting = true;
     }
 }

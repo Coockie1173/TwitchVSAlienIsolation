@@ -16,9 +16,18 @@ namespace AIvsTwitch
             ThreadSharedData.Handler = new EffectHandler();
 
             //setup memory
-            MemoryStuff.mem = new VAMemory("AI");
-            Process GameProcess = Process.GetProcessesByName("AI").FirstOrDefault();
-            MemoryStuff.Base = GameProcess.MainModule.BaseAddress;
+            try
+            {
+                MemoryStuff.mem = new VAMemory("AI");
+                Process GameProcess = Process.GetProcessesByName("AI").FirstOrDefault();
+                MemoryStuff.Base = GameProcess.MainModule.BaseAddress;
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(e.Message);
+                Console.WriteLine("This error is usually caused by the game not being found! Please make sure the game is running. If it's still not working, try running this program as administrator.");
+                Environment.Exit(1); //return error message
+            }
 
             Thread BotThread = new Thread(new ThreadStart(StartBot));
             BotThread.Start();

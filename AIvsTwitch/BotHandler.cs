@@ -56,37 +56,51 @@ namespace AIvsTwitch
         private void Client_OnMessageReceived(object sender, OnMessageReceivedArgs e)
         {
             Console.WriteLine(e.ChatMessage.Message);
-            //check if currently accepting input
-            if(ThreadSharedData.CurrentlyShow)
+            if(ThreadSharedData.Waiting)
             {
-                //accepting input, start counting bois!
-                if (!ThreadSharedData.PeopleVoted.Contains(e.ChatMessage.Username))
+                ThreadSharedData.CurrentlyShow = true; //just to be sure
+                //awaiting the start command
+                if ((e.ChatMessage.IsBroadcaster ||e.ChatMessage.IsStaff) && e.ChatMessage.Message.ToLower() == "start")
                 {
-                    ThreadSharedData.PeopleVoted.Add(e.ChatMessage.Username);
-                    switch (e.ChatMessage.Message)
+                    //STARTING
+                    ThreadSharedData.Waiting = false;
+                    ThreadSharedData.CurrentlyShow = false;
+                }
+            }
+            else
+            {
+                //check if currently accepting input
+                if (ThreadSharedData.CurrentlyShow)
+                {
+                    //accepting input, start counting bois!
+                    if (!ThreadSharedData.PeopleVoted.Contains(e.ChatMessage.Username))
                     {
-                        case "1":
-                            {
-                                ThreadSharedData.Votes[0] += 1;
-                                //ActiveEffects[0].DoEffect(); //to test my effect
-                                break;
-                            }
-                        case "2":
-                            {
-                                ThreadSharedData.Votes[1] += 1;
-                                break;
-                            }
-                        case "3":
-                            {
-                                ThreadSharedData.Votes[2] += 1;
-                                break;
-                            }
+                        ThreadSharedData.PeopleVoted.Add(e.ChatMessage.Username);
+                        switch (e.ChatMessage.Message)
+                        {
+                            case "1":
+                                {
+                                    ThreadSharedData.Votes[0] += 1;
+                                    //ActiveEffects[0].DoEffect(); //to test my effect
+                                    break;
+                                }
+                            case "2":
+                                {
+                                    ThreadSharedData.Votes[1] += 1;
+                                    break;
+                                }
+                            case "3":
+                                {
+                                    ThreadSharedData.Votes[2] += 1;
+                                    break;
+                                }
+                        }
                     }
-                }                
 
-                ThreadSharedData.DrawData = $"{ThreadSharedData.Votes[0]} {ThreadSharedData.ActiveEffects[0].EffectName}\n" +
-                    $"{ThreadSharedData.Votes[1]} {ThreadSharedData.ActiveEffects[1].EffectName}\n" +
-                    $"{ThreadSharedData.Votes[2]} {ThreadSharedData.ActiveEffects[2].EffectName}";
+                    ThreadSharedData.DrawData = $"{ThreadSharedData.Votes[0]} {ThreadSharedData.ActiveEffects[0].EffectName}\n" +
+                        $"{ThreadSharedData.Votes[1]} {ThreadSharedData.ActiveEffects[1].EffectName}\n" +
+                        $"{ThreadSharedData.Votes[2]} {ThreadSharedData.ActiveEffects[2].EffectName}";
+                }
             }
         }
     }
